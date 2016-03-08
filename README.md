@@ -1,5 +1,8 @@
-# CanvasAndCustomViews
+# HueSeekBar
 Circular color selector for Android.
+
+# Screenshots
+![Screenshot](art/device-2016-03-09-003410.png)
 
 ## License
     Copyright 2016 Esteban Latre
