@@ -25,6 +25,7 @@ public class HueSeekBar extends View {
     private static final float SELECTOR_RADIUS_RATIO = 1.5f;
     private static final int STARTING_ANGLE = -90;
     private static final float COLOR_INCREMENT = 4.25f;
+    private static final int SELECTOR_BOX = 50;
 
     private static final int sizeOfIntInHalfBytes = 2;
     private static final int numberOfBitsInAHalfByte = 4;
@@ -55,7 +56,7 @@ public class HueSeekBar extends View {
     private float selectorCenterX;
     private float selectorCenterY;
 
-    private float angle;
+    private float angle = -1.5707774f;
 
     private boolean canMove;
     private int radius;
@@ -236,8 +237,8 @@ public class HueSeekBar extends View {
         float y = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (!canMove && x > selectorCenterX - selectorRadius && x < selectorCenterX + selectorRadius &&
-                    y > selectorCenterY - selectorRadius && y < selectorCenterY + selectorRadius) {
+                if (!canMove && x > selectorCenterX - SELECTOR_BOX && x < selectorCenterX + SELECTOR_BOX &&
+                    y > selectorCenterY - SELECTOR_BOX && y < selectorCenterY + SELECTOR_BOX) {
                     canMove = true;
                     if (listener != null) {
                         listener.onTouchStart(getRealAngle(), getColor());
@@ -282,31 +283,32 @@ public class HueSeekBar extends View {
     private int getColor() {
         double realAngle = getRealAngle();
         int decimal;
+        int color = Color.parseColor("#FF000000");
         if (realAngle >= 0 && realAngle < 60) {
             decimal = (int) (realAngle * COLOR_INCREMENT);
-            return Color.parseColor("#FF" + "FF" + decToHex(decimal) + "00"); // red
+            color = Color.parseColor("#FF" + "FF" + decToHex(decimal) + "00"); // red
         }
         if (realAngle >= 60 && realAngle < 120) {
             decimal = (int) (255 - (realAngle - 60) * COLOR_INCREMENT);
-            return Color.parseColor("#FF" + decToHex(decimal) + "FF" + "00"); // yellow
+            color = Color.parseColor("#FF" + decToHex(decimal) + "FF" + "00"); // yellow
         }
         if (realAngle >= 120 && realAngle < 180) {
             decimal = (int) ((realAngle - 120) * COLOR_INCREMENT);
-            return Color.parseColor("#FF" + "00" + "FF" + decToHex(decimal)); // green
+            color = Color.parseColor("#FF" + "00" + "FF" + decToHex(decimal)); // green
         }
         if (realAngle >= 180 && realAngle < 240) {
             decimal = (int) (255 - (realAngle - 180) * COLOR_INCREMENT);
-            return Color.parseColor("#FF" + "00" + decToHex(decimal) + "FF"); // cyan
+            color = Color.parseColor("#FF" + "00" + decToHex(decimal) + "FF"); // cyan
         }
         if (realAngle >= 240 && realAngle < 300) {
             decimal = (int) ((realAngle - 240) * COLOR_INCREMENT);
-            return Color.parseColor("#FF" + decToHex(decimal) + "00" + "FF"); // blue
+            color = Color.parseColor("#FF" + decToHex(decimal) + "00" + "FF"); // blue
         }
         if (realAngle >= 300 && realAngle <= 360) {
             decimal = (int) (255 - (realAngle - 300) * COLOR_INCREMENT);
-            return Color.parseColor("#FF" + "FF" + "00" + decToHex(decimal)); // magenta
+            color = Color.parseColor("#FF" + "FF" + "00" + decToHex(decimal)); // magenta
         }
-        return Color.parseColor("#FF000000");
+        return color;
     }
 
     private double getRealAngle() {

@@ -66,5 +66,5 @@
         android:layout_above="@+id/textBottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        attr:hueSeekBarWidth="25" />
+        attr:hueSeekBarWidth="30" />
 </RelativeLayout>
