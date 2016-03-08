@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:attr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:background="#266678"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="#56898989"
+        android:padding="2dp"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="@string/seek_bar" />
+
+    <TextView
+        android:id="@+id/textRight"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#56898989"
+        android:padding="10dp"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="@string/seek_bar" />
+
+    <TextView
+        android:id="@+id/textAngle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="@string/app_name" />
+
+    <TextView
+        android:id="@+id/textBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:background="#56898989"
+        android:padding="2dp"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="@string/seek_bar" />
+
+    <com.axa.hue_seek_bar.HueSeekBar
+        android:id="@+id/hueSeekBar"
+        android:layout_toLeftOf="@+id/textRight"
+        android:layout_toStartOf="@+id/textRight"
+        android:layout_below="@+id/textTop"
+        android:layout_above="@+id/textBottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        attr:hueSeekBarWidth="25" />
+</RelativeLayout>
