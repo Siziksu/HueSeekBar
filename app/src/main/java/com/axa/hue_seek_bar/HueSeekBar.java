@@ -22,10 +22,21 @@ public class HueSeekBar extends View {
     private static final int SELECTOR_COLOR = 0xFFFFFFFF;
     private static final int ARK_SEEK_BAR_PADDING = 0;
     private static final int ARK_SEEK_BAR_STARTING_DEGREE = 270;
-    private static final float SELECTOR_RADIUS_RATIO = 1.5f;
     private static final int STARTING_ANGLE = -90;
+    private static final float SELECTOR_RADIUS_RATIO = 1.5f;
     private static final float COLOR_INCREMENT = 4.25f;
-    private static final int SELECTOR_BOX = 50;
+    private static final float SELECTOR_MARGIN = 25;
+    private static final int HEX_FF = 255;
+
+    private static final float DEGREE_0 = 0;
+    private static final float DEGREE_60 = 60;
+    private static final float DEGREE_90 = 90;
+    private static final float DEGREE_120 = 120;
+    private static final float DEGREE_180 = 180;
+    private static final float DEGREE_240 = 240;
+    private static final float DEGREE_270 = -90;
+    private static final float DEGREE_300 = 300;
+    private static final float DEGREE_360 = 360;
 
     private static final int sizeOfIntInHalfBytes = 2;
     private static final int numberOfBitsInAHalfByte = 4;
@@ -45,6 +56,7 @@ public class HueSeekBar extends View {
 
     private int[] gradientColors;
     private float[] gradientPositions;
+
 
     private RectF hueSeekBarBounds = new RectF();
     private int hueSeekBarWidth = 24;
@@ -237,8 +249,9 @@ public class HueSeekBar extends View {
         float y = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (!canMove && x > selectorCenterX - SELECTOR_BOX && x < selectorCenterX + SELECTOR_BOX &&
-                    y > selectorCenterY - SELECTOR_BOX && y < selectorCenterY + SELECTOR_BOX) {
+                float selectorBox = selectorRadius + SELECTOR_MARGIN;
+                if (!canMove && x > selectorCenterX - selectorBox && x < selectorCenterX + selectorBox &&
+                    y > selectorCenterY - selectorBox && y < selectorCenterY + selectorBox) {
                     canMove = true;
                     if (listener != null) {
                         listener.onTouchStart(getRealAngle(), getColor());
@@ -247,14 +260,10 @@ public class HueSeekBar extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (canMove) {
-                    if (event.getY() >= 0 && event.getY() <= layoutHeight && event.getX() >= 0 &&
-                        event.getX() <= layoutWidth) {
-                        float dx = event.getX() - hueSeekBarCenterX;
-                        float dy = event.getY() - hueSeekBarCenterY;
-                        float r = (float) Math.sqrt((dx * dx) + (dy * dy));
-                        if (r > radius - 50 && r < radius + 50) {
-                            angle = (float) Math.atan2(dy, dx);
-                        }
+                    float dx = event.getX() - hueSeekBarCenterX;
+                    float dy = event.getY() - hueSeekBarCenterY;
+                    angle = (float) Math.atan2(dy, dx);
+                    if (Math.toDegrees(angle) >= DEGREE_270 && Math.toDegrees(angle) <= DEGREE_90) {
                         float cos = (float) Math.cos(angle);
                         float sin = (float) Math.sin(angle);
                         selectorCenterX = hueSeekBarBounds.centerX() + radius * cos;
@@ -284,35 +293,35 @@ public class HueSeekBar extends View {
         double realAngle = getRealAngle();
         int decimal;
         int color = Color.parseColor("#FF000000");
-        if (realAngle >= 0 && realAngle < 60) {
+        if (realAngle >= DEGREE_0 && realAngle < DEGREE_60) {
             decimal = (int) (realAngle * COLOR_INCREMENT);
             color = Color.parseColor("#FF" + "FF" + decToHex(decimal) + "00"); // red
         }
-        if (realAngle >= 60 && realAngle < 120) {
-            decimal = (int) (255 - (realAngle - 60) * COLOR_INCREMENT);
+        if (realAngle >= DEGREE_60 && realAngle < DEGREE_120) {
+            decimal = (int) (HEX_FF - (realAngle - DEGREE_60) * COLOR_INCREMENT);
             color = Color.parseColor("#FF" + decToHex(decimal) + "FF" + "00"); // yellow
         }
-        if (realAngle >= 120 && realAngle < 180) {
-            decimal = (int) ((realAngle - 120) * COLOR_INCREMENT);
+        if (realAngle >= DEGREE_120 && realAngle < DEGREE_180) {
+            decimal = (int) ((realAngle - DEGREE_120) * COLOR_INCREMENT);
             color = Color.parseColor("#FF" + "00" + "FF" + decToHex(decimal)); // green
         }
-        if (realAngle >= 180 && realAngle < 240) {
-            decimal = (int) (255 - (realAngle - 180) * COLOR_INCREMENT);
+        if (realAngle >= DEGREE_180 && realAngle < DEGREE_240) {
+            decimal = (int) (HEX_FF - (realAngle - DEGREE_180) * COLOR_INCREMENT);
             color = Color.parseColor("#FF" + "00" + decToHex(decimal) + "FF"); // cyan
         }
-        if (realAngle >= 240 && realAngle < 300) {
-            decimal = (int) ((realAngle - 240) * COLOR_INCREMENT);
+        if (realAngle >= DEGREE_240 && realAngle < DEGREE_300) {
+            decimal = (int) ((realAngle - DEGREE_240) * COLOR_INCREMENT);
             color = Color.parseColor("#FF" + decToHex(decimal) + "00" + "FF"); // blue
         }
-        if (realAngle >= 300 && realAngle <= 360) {
-            decimal = (int) (255 - (realAngle - 300) * COLOR_INCREMENT);
+        if (realAngle >= DEGREE_300 && realAngle <= DEGREE_360) {
+            decimal = (int) (HEX_FF - (realAngle - DEGREE_300) * COLOR_INCREMENT);
             color = Color.parseColor("#FF" + "FF" + "00" + decToHex(decimal)); // magenta
         }
         return color;
     }
 
     private double getRealAngle() {
-        return Math.round((Math.toDegrees(angle) + 90) * 2);
+        return Math.round((Math.toDegrees(angle) + DEGREE_90) * 2);
     }
 
     private String decToHex(int dec) {
