@@ -1,4 +1,4 @@
-package com.axa.hue_seek_bar;
+package com.axa.protected_home.ui.view.dashboard;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -16,17 +16,23 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.axa.protected_home.R;
+
 public class HueSeekBar extends View {
 
     private static final int DEFAULT_COLOR = 0xAA000000;
     private static final int SELECTOR_COLOR = 0xFFFFFFFF;
-    private static final int ARK_SEEK_BAR_PADDING = 0;
-    private static final int ARK_SEEK_BAR_STARTING_DEGREE = 270;
+    private static final int PADDING = 0;
+    private static final int STARTING_DEGREE = 270;
     private static final int STARTING_ANGLE = -90;
     private static final float SELECTOR_RADIUS_RATIO = 1.5f;
     private static final float COLOR_INCREMENT = 4.25f;
     private static final float SELECTOR_MARGIN = 25;
     private static final int HEX_FF = 255;
+
+    private static final int STYLE_INSET = 0;
+    private static final int STYLE_CENTERED = 1;
+    private static final int STYLE_OUTSET = 2;
 
     private static final float DEGREE_0 = 0;
     private static final float DEGREE_60 = 60;
@@ -57,9 +63,9 @@ public class HueSeekBar extends View {
     private int[] gradientColors;
     private float[] gradientPositions;
 
-
     private RectF hueSeekBarBounds = new RectF();
     private int hueSeekBarWidth = 24;
+    private int hueSeekBarStyle = 1;
 
     private float hueSeekBarCenterX;
     private float hueSeekBarCenterY;
@@ -127,6 +133,7 @@ public class HueSeekBar extends View {
 
     private void parseAttributes(TypedArray attributes) {
         hueSeekBarWidth = attributes.getInteger(R.styleable.HueSeekBar_hueSeekBarWidth, hueSeekBarWidth);
+        hueSeekBarStyle = attributes.getInteger(R.styleable.HueSeekBar_hueSeekBarStyle, hueSeekBarStyle);
         attributes.recycle();
     }
 
@@ -150,18 +157,29 @@ public class HueSeekBar extends View {
         // HueSeekBar
         int hueSeekBarHalfSize = hueSeekBarWidth / 2;
         int left = hueSeekBarHalfSize - layoutWidth;
-        int top = hueSeekBarHalfSize + ARK_SEEK_BAR_PADDING;
-        int right = layoutWidth - hueSeekBarHalfSize - ARK_SEEK_BAR_PADDING;
-        int bottom = layoutHeight - hueSeekBarHalfSize - ARK_SEEK_BAR_PADDING;
+        int top = hueSeekBarHalfSize + PADDING;
+        int right = layoutWidth - hueSeekBarHalfSize - PADDING;
+        int bottom = layoutHeight - hueSeekBarHalfSize - PADDING;
         hueSeekBarBounds = new RectF(left, top, right, bottom);
         hueSeekBarCenterX = 0;
         hueSeekBarCenterY = layoutHeight / 2;
         // Selector
         int diameter = Math.max(layoutWidth, layoutHeight);
-        radius = diameter / 2;
+        int style = setStyle(hueSeekBarHalfSize);
+        radius = diameter / 2 + style;
         selectorRadius = hueSeekBarWidth * SELECTOR_RADIUS_RATIO;
         selectorCenterX = hueSeekBarBounds.centerX() + (radius * (float) Math.cos(Math.toRadians(STARTING_ANGLE)));
         selectorCenterY = hueSeekBarBounds.centerY() + (radius * (float) Math.sin(Math.toRadians(STARTING_ANGLE)));
+    }
+
+    private int setStyle(int hueSeekBarHalfSize) {
+        if (hueSeekBarStyle == STYLE_INSET) {
+            return -hueSeekBarHalfSize;
+        }
+        if (hueSeekBarStyle == STYLE_OUTSET) {
+            return hueSeekBarHalfSize;
+        }
+        return 0;
     }
 
     private void setupPaints() {
@@ -193,7 +211,7 @@ public class HueSeekBar extends View {
         hueSeekBarPaint.setStrokeWidth(hueSeekBarWidth);
         Shader shader = getSweepGradient();
         Matrix matrix = new Matrix();
-        matrix.preRotate(ARK_SEEK_BAR_STARTING_DEGREE, hueSeekBarBounds.centerX(), hueSeekBarBounds.centerY());
+        matrix.preRotate(STARTING_DEGREE, hueSeekBarBounds.centerX(), hueSeekBarBounds.centerY());
         shader.setLocalMatrix(matrix);
         hueSeekBarPaint.setShader(shader);
     }

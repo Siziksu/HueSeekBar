@@ -2,6 +2,11 @@
 <resources>
     <declare-styleable name="HueSeekBar">
         <attr name="hueSeekBarWidth" format="integer" />
+        <attr name="hueSeekBarStyle" format="enum">
+            <enum name="inset" value="0" />
+            <enum name="centered" value="1" />
+            <enum name="outset" value="2" />
+        </attr>
     </declare-styleable>
 </resources>
 
