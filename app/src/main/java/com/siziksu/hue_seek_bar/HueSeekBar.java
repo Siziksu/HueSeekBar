@@ -1,4 +1,4 @@
-package com.axa.protected_home.ui.view.dashboard;
+package com.siziksu.protected_home.ui.view.dashboard;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -16,7 +16,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.axa.protected_home.R;
+import com.siziksu.protected_home.R;
 
 public class HueSeekBar extends View {
 

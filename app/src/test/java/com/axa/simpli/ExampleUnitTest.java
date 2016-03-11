@@ -1,4 +1,4 @@
-package com.axa.hue_seek_bar;
+package com.siziksu.hue_seek_bar;
 
 import org.junit.Test;
 

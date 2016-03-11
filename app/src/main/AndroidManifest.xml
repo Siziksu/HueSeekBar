@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="com.axa.hue_seek_bar"
+    package="com.siziksu.hue_seek_bar"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:screenOrientation="portrait"
-            android:name="com.axa.hue_seek_bar.MainActivity">
+            android:name="com.siziksu.hue_seek_bar.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

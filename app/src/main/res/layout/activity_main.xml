@@ -58,7 +58,7 @@
         android:textStyle="bold"
         android:text="@string/seek_bar" />
 
-    <com.axa.hue_seek_bar.HueSeekBar
+    <com.siziksu.hue_seek_bar.HueSeekBar
         android:id="@+id/hueSeekBar"
         android:layout_toLeftOf="@+id/textRight"
         android:layout_toStartOf="@+id/textRight"

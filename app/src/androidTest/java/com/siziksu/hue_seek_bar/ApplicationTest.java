@@ -1,4 +1,4 @@
-package com.axa.hue_seek_bar;
+package com.siziksu.hue_seek_bar;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package com.axa.hue_seek_bar;
+package com.siziksu.hue_seek_bar;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
